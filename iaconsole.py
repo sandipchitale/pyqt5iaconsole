@@ -74,7 +74,6 @@ class MainWindow(QMainWindow):
 
         centralWidget.setLayout(centralWidgetGridLayout)
 
-
 def main():
     app = QApplication(sys.argv)
     window = MainWindow()
