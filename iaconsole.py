@@ -1,8 +1,34 @@
 # PyQt5 introduction
 import sys
 from PyQt5.QtCore import *
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QMouseEvent
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QVBoxLayout, QPushButton
+
+class ForegroundWidget(QWidget):
+    def __init__(self, mainWindow: QMainWindow):
+        super().__init__()
+        self.mainWindow = mainWindow
+        self.dragging = False
+        self.dragStartX = -1
+        self.dragStartY = -1
+
+    def mousePressEvent(self, e: QMouseEvent):
+        super().mousePressEvent(e)
+        if e.button() == Qt.LeftButton:
+            self.dragging = True
+            self.dragStartX = e.x()
+            self.dragStartY = e.x()
+            self.mainWindow.move(self.mainWindow.x() + e.x() - self.dragStartX, self.mainWindow.y() + e.y() - self.dragStartY)
+
+    def mouseMoveEvent(self, e: QMouseEvent):
+        super().mouseMoveEvent(e)
+        if self.dragging:
+            self.mainWindow.move(self.mainWindow.x() + e.x() - self.dragStartX, self.mainWindow.y() + e.y() - self.dragStartY)
+
+    def mouseReleaseEvent(self, e: QMouseEvent):
+        super().mouseReleaseEvent(e)
+        if e.button() == Qt.LeftButton:
+            self.dragging = False
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -28,30 +54,30 @@ class MainWindow(QMainWindow):
 
         centralWidgetGridLayout.addWidget(backgroundLabel, 0, 0)
 
-        foregroundWidget = QWidget(self)
+        foregroundWidget = ForegroundWidget(self)
         foregroundWidget.setStyleSheet("margin: 60px 19px 50px 21px;")
         centralWidgetGridLayout.addWidget(foregroundWidget, 0, 0)
+        foregroundWidget.setMouseTracking(True)
 
         foregroundWidgetGridLayout = QGridLayout()
         foregroundWidgetGridLayout.setContentsMargins(0, 0, 0, 0)
-        foregroundWidgetGridLayout.setHorizontalSpacing(0)
-        foregroundWidgetGridLayout.setVerticalSpacing(0)
         foregroundWidgetGridLayout.setRowStretch(0, 0)
         foregroundWidgetGridLayout.setRowStretch(1, 1)
-
         foregroundWidgetGridLayout.setColumnStretch(0, 1)
 
-        foregroundWidgetGridLayout.addWidget(QPushButton("Hello, World!"), 0, 0)
-        foregroundWidgetGridLayout.addWidget(QPushButton("Goodbye, World!"), 1, 0)
+        foregroundWidgetGridLayout.addWidget(QPushButton("Hello, World!"), 0, 0, Qt.AlignTop)
+        foregroundWidgetGridLayout.addWidget(QPushButton("Goodbye, World!"), 1, 0, Qt.AlignTop)
         foregroundWidget.setLayout(foregroundWidgetGridLayout)
 
         centralWidget.setLayout(centralWidgetGridLayout)
+
 
 def main():
     app = QApplication(sys.argv)
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
+
 
 if __name__ == "__main__":
     main()
