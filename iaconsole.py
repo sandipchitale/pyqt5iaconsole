@@ -9,21 +9,24 @@ class ForegroundWidget(QWidget):
         super().__init__()
         self.mainWindow = mainWindow
         self.dragging = False
-        self.dragStartX = -1
-        self.dragStartY = -1
+        self.prevX = -1
+        self.prevY = -1
 
     def mousePressEvent(self, e: QMouseEvent):
         super().mousePressEvent(e)
         if e.button() == Qt.LeftButton:
             self.dragging = True
-            self.dragStartX = e.x()
-            self.dragStartY = e.x()
-            self.mainWindow.move(self.mainWindow.x() + e.x() - self.dragStartX, self.mainWindow.y() + e.y() - self.dragStartY)
+            self.prevX = e.globalX()
+            self.prevY = e.globalY()
 
     def mouseMoveEvent(self, e: QMouseEvent):
         super().mouseMoveEvent(e)
         if self.dragging:
-            self.mainWindow.move(self.mainWindow.x() + e.x() - self.dragStartX, self.mainWindow.y() + e.y() - self.dragStartY)
+            deltaX = e.globalX() - self.prevX
+            deltaY = e.globalY() - self.prevY
+            self.mainWindow.move(self.mainWindow.x() + deltaX, self.mainWindow.y() + deltaY)
+            self.prevX = e.globalX()
+            self.prevY = e.globalY()
 
     def mouseReleaseEvent(self, e: QMouseEvent):
         super().mouseReleaseEvent(e)
