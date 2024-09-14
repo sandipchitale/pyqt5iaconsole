@@ -4,7 +4,7 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QPixmap, QMouseEvent
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QVBoxLayout, QSizePolicy,
-                             QToolBox, QToolBar, QHBoxLayout, QPushButton)
+                             QToolBox, QToolBar, QHBoxLayout, QPushButton, QComboBox)
 
 
 class ForegroundWidget(QWidget):
@@ -80,17 +80,29 @@ class MainWindow(QMainWindow):
         primaryToolbarLayout = primaryToolbar.layout()
         primaryToolbarLayout.setSpacing(4)
 
-        downloadButton = QPushButton("⇩")
-        downloadButton.setStyleSheet("padding: 8px;")
+        branches = QComboBox()
+        branches.setStyleSheet("padding: 3px 8px;")
+        branches.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        branches.addItem("Main")
+        branches.addItem("24.4")
+        primaryToolbar.addWidget(branches)
+
+        downloadButton = QPushButton("V")
+        downloadButton.setStyleSheet("padding: 4px 8px;")
         primaryToolbar.addWidget(downloadButton)
 
-        extractButton = QPushButton("⇼")
-        extractButton.setStyleSheet("padding: 8px 11px;")
+        extractButton = QPushButton("_")
+        extractButton.setStyleSheet("padding: 4px 8px;")
         primaryToolbar.addWidget(extractButton)
 
-        installButton = QPushButton("⚒️")
+        installButton = QPushButton("I")
         installButton.setStyleSheet("padding: 4px 10px;")
         primaryToolbar.addWidget(installButton)
+
+        exitButton = QPushButton("X")
+        exitButton.setStyleSheet("padding: 4px 10px;")
+        primaryToolbar.addWidget(exitButton)
+        exitButton.clicked.connect(lambda e: sys.exit(0))
 
         secondaryToolbar = QToolBar()
         foregroundWidgetLayout.addWidget(secondaryToolbar)
@@ -99,12 +111,17 @@ class MainWindow(QMainWindow):
         secondaryToolbarLayout = secondaryToolbar.layout()
         secondaryToolbarLayout.setSpacing(4)
 
-        downloadButton = QPushButton("⇩")
-        downloadButton.setStyleSheet("padding: 8;")
+        downloadButton = QPushButton("V")
+        downloadButton.setStyleSheet("padding: 4px 8px;")
         secondaryToolbar.addWidget(downloadButton)
-        extractButton = QPushButton("⇼")
-        extractButton.setStyleSheet("padding: 8px 11px;")
+
+        extractButton = QPushButton("X")
+        extractButton.setStyleSheet("padding: 4px 8px;")
         secondaryToolbar.addWidget(extractButton)
+
+        installButton = QPushButton("I")
+        installButton.setStyleSheet("padding: 4px 10px;")
+        secondaryToolbar.addWidget(installButton)
 
         foregroundWidgetLayout.addStretch(1)
 
