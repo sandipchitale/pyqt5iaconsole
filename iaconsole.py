@@ -4,7 +4,7 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QPixmap, QMouseEvent
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QVBoxLayout, QSizePolicy,
-                             QToolBox, QToolBar, QHBoxLayout, QPushButton, QComboBox)
+                             QToolBar, QPushButton, QComboBox)
 
 
 class ForegroundWidget(QWidget):
@@ -99,10 +99,9 @@ class MainWindow(QMainWindow):
         installButton.setStyleSheet("padding: 4px 10px;")
         primaryToolbar.addWidget(installButton)
 
-        exitButton = QPushButton("X")
+        exitButton = QPushButton("X", clicked=lambda : sys.exit(0))
         exitButton.setStyleSheet("padding: 4px 10px;")
         primaryToolbar.addWidget(exitButton)
-        exitButton.clicked.connect(lambda e: sys.exit(0))
 
         secondaryToolbar = QToolBar()
         foregroundWidgetLayout.addWidget(secondaryToolbar)
