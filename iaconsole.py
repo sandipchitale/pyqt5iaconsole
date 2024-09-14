@@ -1,8 +1,11 @@
 # PyQt5 introduction
 import sys
+
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QPixmap, QMouseEvent
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QVBoxLayout, QPushButton
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QVBoxLayout, QSizePolicy,
+                             QToolBox, QToolBar, QHBoxLayout, QPushButton)
+
 
 class ForegroundWidget(QWidget):
     def __init__(self, mainWindow: QMainWindow):
@@ -51,26 +54,61 @@ class MainWindow(QMainWindow):
 
         centralWidgetGridLayout = QGridLayout()
 
+        # Background label
         backgroundImage = QPixmap("assets/iaconsole-bg.png")
         backgroundLabel = QLabel("iaconsole", self)
         backgroundLabel.setPixmap(backgroundImage)
-
+        # add in cell 0,0
         centralWidgetGridLayout.addWidget(backgroundLabel, 0, 0)
 
+        # Main Panel
         foregroundWidget = ForegroundWidget(self)
-        foregroundWidget.setStyleSheet("margin: 60px 19px 50px 21px;")
+        # add in cell 0,0 to backgroundLabel
         centralWidgetGridLayout.addWidget(foregroundWidget, 0, 0)
+
         foregroundWidget.setMouseTracking(True)
+        foregroundWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
-        foregroundWidgetGridLayout = QGridLayout()
-        foregroundWidgetGridLayout.setContentsMargins(0, 0, 0, 0)
-        foregroundWidgetGridLayout.setRowStretch(0, 0)
-        foregroundWidgetGridLayout.setRowStretch(1, 1)
-        foregroundWidgetGridLayout.setColumnStretch(0, 1)
+        foregroundWidgetLayout = QVBoxLayout()
+        foregroundWidgetLayout.setContentsMargins(20,60,19,50)
+        foregroundWidgetLayout.setSpacing(0)
 
-        foregroundWidgetGridLayout.addWidget(QPushButton("Hello, World!"), 0, 0, Qt.AlignTop)
-        foregroundWidgetGridLayout.addWidget(QPushButton("Goodbye, World!"), 1, 0, Qt.AlignTop)
-        foregroundWidget.setLayout(foregroundWidgetGridLayout)
+        primaryToolbar = QToolBar()
+        foregroundWidgetLayout.addWidget(primaryToolbar)
+        foregroundWidgetLayout.setStretch(0, 0)
+
+        primaryToolbarLayout = primaryToolbar.layout()
+        primaryToolbarLayout.setSpacing(4)
+
+        downloadButton = QPushButton("⇩")
+        downloadButton.setStyleSheet("padding: 8px;")
+        primaryToolbar.addWidget(downloadButton)
+
+        extractButton = QPushButton("⇼")
+        extractButton.setStyleSheet("padding: 8px 11px;")
+        primaryToolbar.addWidget(extractButton)
+
+        installButton = QPushButton("⚒️")
+        installButton.setStyleSheet("padding: 4px 10px;")
+        primaryToolbar.addWidget(installButton)
+
+        secondaryToolbar = QToolBar()
+        foregroundWidgetLayout.addWidget(secondaryToolbar)
+        foregroundWidgetLayout.setStretch(1, 0)
+
+        secondaryToolbarLayout = secondaryToolbar.layout()
+        secondaryToolbarLayout.setSpacing(4)
+
+        downloadButton = QPushButton("⇩")
+        downloadButton.setStyleSheet("padding: 8;")
+        secondaryToolbar.addWidget(downloadButton)
+        extractButton = QPushButton("⇼")
+        extractButton.setStyleSheet("padding: 8px 11px;")
+        secondaryToolbar.addWidget(extractButton)
+
+        foregroundWidgetLayout.addStretch(1)
+
+        foregroundWidget.setLayout(foregroundWidgetLayout)
 
         centralWidget.setLayout(centralWidgetGridLayout)
 
