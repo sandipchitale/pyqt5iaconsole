@@ -36,6 +36,7 @@ class ForegroundWidget(QWidget):
         if e.button() == Qt.LeftButton:
             self.dragging = False
 
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -70,7 +71,7 @@ class MainWindow(QMainWindow):
         foregroundWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         foregroundWidgetLayout = QVBoxLayout()
-        foregroundWidgetLayout.setContentsMargins(20,60,19,50)
+        foregroundWidgetLayout.setContentsMargins(20, 60, 19, 50)
         foregroundWidgetLayout.setSpacing(0)
 
         primaryToolbar = QToolBar()
@@ -80,53 +81,28 @@ class MainWindow(QMainWindow):
         primaryToolbarLayout = primaryToolbar.layout()
         primaryToolbarLayout.setSpacing(4)
 
-        branches = QComboBox()
-        branches.setStyleSheet("padding: 3px 8px;")
-        branches.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        branches.addItem("Main")
-        branches.addItem("24.4")
-        primaryToolbar.addWidget(branches)
+        primaryToolbar.addWidget(QLabel("Languages: "))
 
-        downloadButton = QPushButton("V")
-        downloadButton.setStyleSheet("padding: 4px 8px;")
-        primaryToolbar.addWidget(downloadButton)
+        languages = QComboBox()
+        languages.setStyleSheet("padding: 3px 8px;")
+        languages.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
+        languages.addItem("English")
+        languages.addItem("Hindi")
+        languages.addItem("Marathi")
+        primaryToolbar.addWidget(languages)
 
-        extractButton = QPushButton("_")
-        extractButton.setStyleSheet("padding: 4px 8px;")
-        primaryToolbar.addWidget(extractButton)
-
-        installButton = QPushButton("I")
-        installButton.setStyleSheet("padding: 4px 10px;")
-        primaryToolbar.addWidget(installButton)
-
-        exitButton = QPushButton("X", clicked=lambda : sys.exit(0))
+        exitButton = QPushButton("⨉")
+        # noinspection PyUnresolvedReferences
+        exitButton.clicked.connect(lambda: sys.exit(0))
         exitButton.setStyleSheet("padding: 4px 10px;")
         primaryToolbar.addWidget(exitButton)
-
-        secondaryToolbar = QToolBar()
-        foregroundWidgetLayout.addWidget(secondaryToolbar)
-        foregroundWidgetLayout.setStretch(1, 0)
-
-        secondaryToolbarLayout = secondaryToolbar.layout()
-        secondaryToolbarLayout.setSpacing(4)
-
-        downloadButton = QPushButton("V")
-        downloadButton.setStyleSheet("padding: 4px 8px;")
-        secondaryToolbar.addWidget(downloadButton)
-
-        extractButton = QPushButton("X")
-        extractButton.setStyleSheet("padding: 4px 8px;")
-        secondaryToolbar.addWidget(extractButton)
-
-        installButton = QPushButton("I")
-        installButton.setStyleSheet("padding: 4px 10px;")
-        secondaryToolbar.addWidget(installButton)
 
         foregroundWidgetLayout.addStretch(1)
 
         foregroundWidget.setLayout(foregroundWidgetLayout)
 
         centralWidget.setLayout(centralWidgetGridLayout)
+
 
 def main():
     app = QApplication(sys.argv)
