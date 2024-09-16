@@ -41,7 +41,11 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("iaconsole")
-        self.setGeometry(500, 100, 408, 826)
+
+        # preload background image pixmap
+        self.backgroundImage = QPixmap("assets/iaconsole-bg.png")
+        self.setGeometry(500, 100,
+                         self.backgroundImage.size().width(), self.backgroundImage.size().height())
         self.setWindowOpacity(0.0)
         self.setAttribute(Qt.WA_NoSystemBackground, True)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
@@ -56,9 +60,8 @@ class MainWindow(QMainWindow):
         centralWidgetGridLayout = QGridLayout()
 
         # Background label
-        backgroundImage = QPixmap("assets/iaconsole-bg.png")
         backgroundLabel = QLabel("iaconsole", self)
-        backgroundLabel.setPixmap(backgroundImage)
+        backgroundLabel.setPixmap(self.backgroundImage)
         # add in cell 0,0
         centralWidgetGridLayout.addWidget(backgroundLabel, 0, 0)
 
