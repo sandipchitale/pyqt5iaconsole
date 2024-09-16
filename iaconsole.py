@@ -4,7 +4,7 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QPixmap, QMouseEvent
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QVBoxLayout, QSizePolicy,
-                             QToolBar, QPushButton, QComboBox)
+                             QToolBar, QPushButton)
 
 
 class ForegroundWidget(QWidget):
@@ -51,6 +51,9 @@ class MainWindow(QMainWindow):
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
         self.setWindowFlags(
             Qt.WindowType.FramelessWindowHint)
+
+        self.exitButton = QPushButton("⨉")
+
         self.initUI()
 
     def initUI(self):
@@ -84,23 +87,14 @@ class MainWindow(QMainWindow):
         primaryToolbarLayout = primaryToolbar.layout()
         primaryToolbarLayout.setSpacing(4)
 
-        primaryToolbar.addWidget(QLabel("Languages: "))
-
-        languages = QComboBox()
-        languages.setStyleSheet("padding: 3px 8px;")
-        languages.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
-        languages.addItem("English")
-        languages.addItem("Hindi")
-        languages.addItem("Marathi")
-        primaryToolbar.addWidget(languages)
-
-        exitButton = QPushButton("⨉")
-        # noinspection PyUnresolvedReferences
-        exitButton.clicked.connect(lambda: sys.exit(0))
-        exitButton.setStyleSheet("padding: 4px 10px;")
-        primaryToolbar.addWidget(exitButton)
-
         foregroundWidgetLayout.addStretch(1)
+
+        foregroundWidgetLayout.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+
+        self.exitButton.setStyleSheet("border-radius: 14px; border: 1 solid #bbb; padding: 6px 10px;")
+        # noinspection PyUnresolvedReferences
+        self.exitButton.clicked.connect(lambda: sys.exit(0))
+        primaryToolbar.addWidget(self.exitButton)
 
         foregroundWidget.setLayout(foregroundWidgetLayout)
 
