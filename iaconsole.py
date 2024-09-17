@@ -4,7 +4,7 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QPixmap, QMouseEvent
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QVBoxLayout, QSizePolicy,
-                             QToolBar, QPushButton)
+                             QToolBar, QPushButton, QHBoxLayout)
 
 
 class ForegroundWidget(QWidget):
@@ -70,35 +70,36 @@ class MainWindow(QMainWindow):
 
         # Main Panel
         foregroundWidget = ForegroundWidget(self)
-        # add in cell 0,0 to backgroundLabel
-        centralWidgetGridLayout.addWidget(foregroundWidget, 0, 0)
-
         foregroundWidget.setMouseTracking(True)
         foregroundWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         foregroundWidgetLayout = QVBoxLayout()
+        foregroundWidget.setLayout(foregroundWidgetLayout)
+
         foregroundWidgetLayout.setContentsMargins(20, 60, 20, 50)
         foregroundWidgetLayout.setSpacing(0)
 
-        primaryToolbar = QToolBar()
-        foregroundWidgetLayout.addWidget(primaryToolbar)
+        primaryToolbar = QWidget()
 
-        primaryToolbarLayout = primaryToolbar.layout()
+        primaryToolbarLayout = QHBoxLayout()
+        primaryToolbar.setLayout(primaryToolbarLayout)
+
         primaryToolbarLayout.setSpacing(4)
 
-        spacer = QWidget()
-        spacer.setSizePolicy(QSizePolicy.Policy.Expanding,
-                             QSizePolicy.Policy.Expanding)
-        primaryToolbar.addWidget(spacer)
+        # Left stretch
+        primaryToolbarLayout.addStretch()
 
         self.exitButton.setStyleSheet("border-radius: 14px; border: 1 solid #bbb; padding: 6px 10px;")
         # noinspection PyUnresolvedReferences
         self.exitButton.clicked.connect(lambda: sys.exit(0))
-        primaryToolbar.addWidget(self.exitButton)
+        primaryToolbarLayout.addWidget(self.exitButton)
+
+        foregroundWidgetLayout.addWidget(primaryToolbar)
 
         foregroundWidgetLayout.addStretch(1)
 
-        foregroundWidget.setLayout(foregroundWidgetLayout)
+        # add in cell 0,0 to backgroundLabel
+        centralWidgetGridLayout.addWidget(foregroundWidget, 0, 0)
 
         centralWidget.setLayout(centralWidgetGridLayout)
 
