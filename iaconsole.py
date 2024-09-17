@@ -4,7 +4,7 @@ import sys
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QPixmap, QMouseEvent
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QLabel, QWidget, QGridLayout, QVBoxLayout, QSizePolicy,
-                             QToolBar, QPushButton, QHBoxLayout)
+                             QPushButton, QHBoxLayout)
 
 
 class ForegroundWidget(QWidget):
@@ -44,13 +44,11 @@ class MainWindow(QMainWindow):
 
         # preload background image pixmap
         self.backgroundImage = QPixmap("assets/iaconsole-tablet.png")
-        self.setGeometry(300, 100,
-                         self.backgroundImage.size().width(), self.backgroundImage.size().height())
+        self.setGeometry(300, 100, self.backgroundImage.size().width(), self.backgroundImage.size().height())
         self.setWindowOpacity(0.0)
         self.setAttribute(Qt.WA_NoSystemBackground, True)
         self.setAttribute(Qt.WidgetAttribute.WA_TranslucentBackground)
-        self.setWindowFlags(
-            Qt.WindowType.FramelessWindowHint)
+        self.setWindowFlags(Qt.WindowType.FramelessWindowHint)
 
         self.exitButton = QPushButton("⨉")
 
