@@ -43,8 +43,8 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("iaconsole")
 
         # preload background image pixmap
-        self.backgroundImage = QPixmap("assets/iaconsole-bg.png")
-        self.setGeometry(500, 100,
+        self.backgroundImage = QPixmap("assets/iaconsole-tablet.png")
+        self.setGeometry(300, 100,
                          self.backgroundImage.size().width(), self.backgroundImage.size().height())
         self.setWindowOpacity(0.0)
         self.setAttribute(Qt.WA_NoSystemBackground, True)
@@ -77,24 +77,26 @@ class MainWindow(QMainWindow):
         foregroundWidget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
 
         foregroundWidgetLayout = QVBoxLayout()
-        foregroundWidgetLayout.setContentsMargins(20, 60, 19, 50)
+        foregroundWidgetLayout.setContentsMargins(20, 60, 20, 50)
         foregroundWidgetLayout.setSpacing(0)
 
         primaryToolbar = QToolBar()
         foregroundWidgetLayout.addWidget(primaryToolbar)
-        foregroundWidgetLayout.setStretch(0, 0)
 
         primaryToolbarLayout = primaryToolbar.layout()
         primaryToolbarLayout.setSpacing(4)
 
-        foregroundWidgetLayout.addStretch(1)
-
-        foregroundWidgetLayout.setAlignment(Qt.AlignRight | Qt.AlignVCenter)
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Policy.Expanding,
+                             QSizePolicy.Policy.Expanding)
+        primaryToolbar.addWidget(spacer)
 
         self.exitButton.setStyleSheet("border-radius: 14px; border: 1 solid #bbb; padding: 6px 10px;")
         # noinspection PyUnresolvedReferences
         self.exitButton.clicked.connect(lambda: sys.exit(0))
         primaryToolbar.addWidget(self.exitButton)
+
+        foregroundWidgetLayout.addStretch(1)
 
         foregroundWidget.setLayout(foregroundWidgetLayout)
 
